@@ -1,10 +1,11 @@
-const documents = require('../models').Document;
+const documents = require('../models').document;
 
 module.exports = {
   create(req, res) {
     return documents
       .create({
-        Title: req.body.title,
+        title: req.body.title,
+        content: req.body.content,
       })
       .then(document => res.status(201).send(document))
       .catch(error => res.status(400).send(error));
