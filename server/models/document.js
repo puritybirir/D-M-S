@@ -1,18 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
-  const Document = sequelize.define('Document', {
-    Title: DataTypes.STRING,
-    Content: DataTypes.STRING,
-    Access: DataTypes.STRING,
+  const document = sequelize.define('document', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    access: DataTypes.STRING,
   }, {
     classMethods: {
       associate(models) {
-        // associations can be defined here
-        Document.belongsTo(models.User, {
-          foreignKey: 'UserId',
+        document.belongsTo(models.user, {
+          foreignKey: 'userId',
           onDelete: 'CASCADE',
         });
       },
     },
   });
-  return Document;
+  return document;
 };
