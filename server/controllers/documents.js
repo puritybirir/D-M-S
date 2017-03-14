@@ -58,8 +58,7 @@ module.exports = {
     return documents
     .find({
       where: {
-        id: req.params.documentsId,
-        userId: req.params.userId,
+        id: req.params.id,
       },
     })
     .then((document) => {
@@ -68,7 +67,6 @@ module.exports = {
           message: 'Documetn Not Found',
         });
       }
-
       return document
         .destroy()
         .then(() => res.status(204).send())
