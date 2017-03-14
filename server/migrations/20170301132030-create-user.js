@@ -32,13 +32,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       roleId: {
-        type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Roles',
-          key: 'id',
-          as: 'roleId',
-        },
+        type: Sequelize.STRING,
       },
     });
   },
