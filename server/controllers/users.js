@@ -1,17 +1,17 @@
+require('dotenv').config();
 const User = require('../models').user;
 const document = require('../models').document;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-module.exports = {
+class Users {
   create(req, res) {
     return User
     .create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password,
-      roleId: 1,
+      password: req.body.password
     })
     .then((user) => {
       res.status(201).send({
@@ -23,59 +23,58 @@ module.exports = {
       });
     })
     .catch(error => res.status(400).send(error));
-  },
+  }
 
   login(req, res) {
-    if (req.body.email && req.body.password) {
+    if (req.body.email && req.body.password)
       User.findOne({
-        email: req.body.email,
+        where: {
+          email: req.body.email,
+        }
       }).then((user) => {
-        if (!user) {
+        if (!user)
           return res.send({
             message: 'Unknown user',
           });
-        }
+
         return bcrypt.compare(req.body.password, user.password, (err, result) => {
-          if (err) {
+          if (err)
             res.status(401).send({ error: err });
-          }
+
           if (result) {
-            const token = jwt.sign({ email: user.email }, process.env.SECRET,
-            { expiresIn: 60 * 60 });
+            const payload = {
+              email: user.email,
+              userId: user.id,
+              roleId: user.roleId
+            }
+            const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 60 * 60 });
             res.send({ email: user.email, Token: token });
-          } else {
+          } else
             res.status(401).send({
               message: 'Email/Password mismatch',
             });
-          }
         });
       })
       .catch(err => res.send(err));
-    } else {
+    else
       res.status(400).send({
         message: 'No email or password provided',
       });
-    }
-  },
+  }
 
-  listAll(req, res) {
-    return User
-    .findAll({
-      include: [{
-        model: document,
-        as: 'documents',
-      }],
-    })
+listAll(req, res) {
+  return User
+    .findAll()
     .then(users => res.status(200).send(users))
     .catch(error => res.status(400).send(error));
-  },
+}
 
-  findOne(req, res) {
-    return User
-    .findById(req.params.userId, {
+findOne(req, res) {
+  return User
+    .findById(req.params.id, {
       include: [{
         model: document,
-        as: 'documents',
+        as: 'document',
       }],
     })
     .then((user) => {
@@ -87,48 +86,41 @@ module.exports = {
       return res.status(200).send(user);
     })
     .catch(error => res.status(400).send(error));
-  },
+  }
 
   update(req, res) {
     return User
-    .findById(req.params.userId, {
-      include: [{
-        model: document,
-        as: 'documents',
-      }],
-    })
+    .findById(req.params.id)
     .then((user) => {
-      if (!user) {
+      if (!user)
         return res.status(404).send({
           message: 'User Not Found',
         });
-      }
+
       return user
-        .update({
-          title: req.body.title || document.title,
-          content: req.body.content || document.content,
-        })
+        .update(req.body)
         .then(() => res.status(200).send(user))
         .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
-  },
+  }
 
   delete(req, res) {
     return User
-    .findById(req.params.userId)
+    .findById(req.params.id)
     .then((user) => {
-      if (!user) {
+      if (!user)
         return res.status(400).send({
           message: 'Todo Not Found',
         });
-      }
+
       return user
         .destroy()
         .then(() => res.status(200).send({ message: 'User deleted successfully.' }))
         .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
-  },
+  }
+}
 
-};
+exports.Users = Users;
