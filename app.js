@@ -1,3 +1,4 @@
+
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -19,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Require our routes into the application.
 // require('./server/routes')(app);
 
-app.use('/api/users', users);
+app.use('/api', users);
 app.use('/api/documents', documents);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
