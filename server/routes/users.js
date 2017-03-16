@@ -9,7 +9,7 @@ const authenticate = require('../helpers/middlewares').authenticate;
 router.post('/users', users.create);
 router.post('/users/login', users.login);
 
-// middleware authenitcated
+// middleware authenticated
 router.use(authenticate);
 
 router.get('/users', users.listAll);
