@@ -1,8 +1,2 @@
-# node
-node_modules
-
-# environment variables
-.env
-
-# Vs code
-.vscode
+# Runtime data
+node_modules/

@@ -1,9 +1,7 @@
-const documents = require('./documents').Document;
+const documents = require('./documents');
 const roles = require('./roles');
-const users = require('./users').Users;
 
 module.exports = {
   documents,
   roles,
-  users,
 };

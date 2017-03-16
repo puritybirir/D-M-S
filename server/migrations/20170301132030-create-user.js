@@ -15,10 +15,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      userName: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -36,7 +32,13 @@ module.exports = {
         type: Sequelize.DATE,
       },
       roleId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Roles',
+          key: 'id',
+          as: 'roleId',
+        },
       },
     });
   },

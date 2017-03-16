@@ -14,9 +14,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       access: {
-        type: Sequelize.ENUM,
-        values: ['public', 'private'],
-        defaultValue: 'private'
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -28,7 +26,6 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         onDelete: 'CASCADE',
         references: {
           model: 'users',
