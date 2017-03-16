@@ -1,2 +1,8 @@
-# Runtime data
-node_modules/
+# node
+node_modules
+
+# environment variables
+.env
+
+# Vs code
+.vscode
