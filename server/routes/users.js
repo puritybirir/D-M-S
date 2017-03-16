@@ -16,5 +16,7 @@ router.get('/users', users.listAll);
 router.get('/users/:id', users.findOne);
 router.put('/users/:id', users.update);
 router.delete('/users/:id', users.delete);
+router.get('/search/users', users.search);
+
 
 module.exports = router;
