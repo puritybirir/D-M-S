@@ -7,12 +7,7 @@ const jwt = require('jsonwebtoken');
 class Users {
   create(req, res) {
     return User
-    .create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password
-    })
+    .create(req.body)
     .then((user) => {
       res.status(201).send({
         message: 'User created succesfully',
@@ -20,6 +15,7 @@ class Users {
         lastName: user.lastName,
         email: user.email,
         roleId: user.roleId,
+        userName: req.body.userName
       });
     })
     .catch(error => res.status(400).send(error));
@@ -46,7 +42,7 @@ class Users {
               email: user.email,
               userId: user.id,
               roleId: user.roleId
-            }
+            };
             const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 60 * 60 });
             res.send({ email: user.email, Token: token });
           } else
@@ -62,15 +58,24 @@ class Users {
       });
   }
 
-listAll(req, res) {
-  return User
+  listAll(req, res) {
+    if (req.query.limit || req.query.offset)
+      return User
+    .findAll({
+      limit: req.query.limit,
+      offset: req.query.offset
+    })
+  .then(user => res.status(200).send(user))
+  .catch(error => res.status(400).send(error));
+
+    return User
     .findAll()
     .then(users => res.status(200).send(users))
     .catch(error => res.status(400).send(error));
-}
+  }
 
-findOne(req, res) {
-  return User
+  findOne(req, res) {
+    return User
     .findById(req.params.id, {
       include: [{
         model: document,
@@ -78,11 +83,11 @@ findOne(req, res) {
       }],
     })
     .then((user) => {
-      if (!user) {
+      if (!user)
         return res.status(404).send({
           message: 'User Not Found',
         });
-      }
+
       return res.status(200).send(user);
     })
     .catch(error => res.status(400).send(error));
@@ -121,6 +126,28 @@ findOne(req, res) {
     })
     .catch(error => res.status(400).send(error));
   }
-}
 
+  search(req, res) {
+    return User
+    .findAll({
+      where: {
+        $or: [
+          {
+            userName: { $iLike: `%${req.query.q}%` }
+          }
+        ]
+      },
+      order: '"createdAt" ASC'
+    })
+
+    .then((user) => {
+      if (user.length < 1)
+        return res.status(400).send({
+          message: 'No users match the search criteria'
+        });
+      return res.status(200).send(user);
+    })
+    .catch(error => res.status(400).send(error));
+  }
+}
 exports.Users = Users;
