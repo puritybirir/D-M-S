@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && ./node_modules/.bin/mocha --reporter spec ./server/tests/*.js --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "chai-http": "^3.0.0",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^7.3.0",
     "mocha": "^3.2.0",
     "morgan": "^1.8.1",
