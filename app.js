@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 // Set up the express app
 const app = express();
 
-// REequire routes
+// Require routes
 const users = require('./server/routes/users');
 const documents = require('./server/routes/documents');
 
@@ -16,9 +16,6 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Require our routes into the application.
-// require('./server/routes')(app);
 
 app.use('/api', users);
 app.use('/api', documents);
