@@ -41,7 +41,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should create a unique user', (done) => {
+    it('should create a unique user on /api/users POST', (done) => {
       chai.request(app)
       .post('/api/users')
       .send({
@@ -57,7 +57,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should create a role for the user ', (done) => {
+    it('should create a role for the user on /api/users POST', (done) => {
       chai.request(app)
       .post('/api/users')
       .send({
@@ -99,7 +99,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if the wrong login credentials are provided ', (done) => {
+    it('should fail if the wrong login credentials are provided on /api/users/login POST ', (done) => {
       chai.request(app)
       .post('/api/users/login')
       .send({
@@ -112,7 +112,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if the email provided is invalid', (done) => {
+    it('should fail if the email provided is invalid on /api/users/login POST', (done) => {
       chai.request(app)
       .post('/api/users/login')
       .send({
@@ -124,7 +124,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if the user has not been created', (done) => {
+    it('should fail if the user has not been created on /api/users/login POST', (done) => {
       chai.request(app)
       .post('/api/users/login')
       .send({
@@ -136,7 +136,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if all fields are not provided', (done) => {
+    it('should fail if all fields are not provided on /api/users/login POST', (done) => {
       chai.request(app)
       .post('/api/users/login')
       .send({
@@ -150,7 +150,7 @@ describe('Users', () => {
     });
   });
   describe('Get all users and paginate', () => {
-    it('should generate a list of all registered users', (done) => {
+    it('should generate a list of all registered users on /api/users GET', (done) => {
       chai.request(app)
       .get('/api/users')
       .set('x-access-token', userToken)
@@ -160,7 +160,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if a token is not provided', (done) => {
+    it('should fail if a token is not provided on /api/users GET', (done) => {
       chai.request(app)
       .get('/api/users')
       .end((err, res) => {
@@ -169,7 +169,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if an invalid token is provided', (done) => {
+    it('should fail if an invalid token is provided on /api/users GET', (done) => {
       chai.request(app)
       .get('/api/users')
       .set('x-access-token', 'wrong token')
@@ -179,7 +179,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should assign page numbers if limit and offset are present', (done) => {
+    it('should assign page numbers if limit and offset are present on /api/users?limit=2&offset=1 GET', (done) => {
       chai.request(app)
       .get('/api/users?limit=2&offset=1')
       .set('x-access-token', userToken)
@@ -189,9 +189,28 @@ describe('Users', () => {
         done();
       });
     });
+    it('should fail if a token is not provided on /api/users?limit=2&offset=1 GET', (done) => {
+      chai.request(app)
+      .get('/api/users?limit=2&offset=1')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.message.should.equal('No token provided');
+        done();
+      });
+    });
+    it('should fail if the token provided is incorrect on /api/users?limit=2&offset=1 GET', (done) => {
+      chai.request(app)
+      .get('/api/users?limit=2&offset=1')
+      .set('x-access-token', 'userToken')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.message.should.equal('Invalid token provided');
+        done();
+      });
+    });
   });
   describe('Find one user', () => {
-    it('should find a specific user in the application', (done) => {
+    it('should find a specific user in the application on /api/users/id GET', (done) => {
       chai.request(app)
       .get('/api/users/1')
       .set('x-access-token', userToken)
@@ -201,7 +220,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if a user does not exist', (done) => {
+    it('should fail if a user does not exist on /api/users/id GET', (done) => {
       chai.request(app)
       .get('/api/users/20200')
       .set('x-access-token', userToken)
@@ -211,7 +230,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if a token is not provided', (done) => {
+    it('should fail if a token is not provided on /api/users/id GET', (done) => {
       chai.request(app)
       .get('/api/users/1')
       .end((err, res) => {
@@ -222,7 +241,7 @@ describe('Users', () => {
     });
   });
   describe('Update user', () => {
-    it('should update a users details', (done) => {
+    it('should update a users details on /api/users/id PUT', (done) => {
       chai.request(app)
       .put('/api/users/1')
       .set('x-access-token', userToken)
@@ -237,7 +256,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail to update a non-existing user', (done) => {
+    it('should fail to update a non-existing user on /api/users/id PUT', (done) => {
       chai.request(app)
       .put('/api/users/20200')
       .set('x-access-token', userToken)
@@ -251,7 +270,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if token is not provided', (done) => {
+    it('should fail if token is not provided on /api/users/unknownId PUT', (done) => {
       chai.request(app)
       .put('/api/users/1')
       .send({
@@ -264,7 +283,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if invalid token is not provided', (done) => {
+    it('should fail if invalid token is not provided on /api/users/id PUT', (done) => {
       chai.request(app)
       .put('/api/users/1')
       .set('x-access-token', 'invalid token provided')
@@ -280,7 +299,7 @@ describe('Users', () => {
     });
   });
   describe('Delete user', () => {
-    it('should delete a user', (done) => {
+    it('should delete a user on /api/users/id DELETE', (done) => {
       chai.request(app)
       .delete('/api/users/1')
       .set('x-access-token', userToken)
@@ -290,7 +309,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if an uncreated user is deleted ', (done) => {
+    it('should fail if an uncreated user is deleted on /api/users/unknownId DELETE ', (done) => {
       chai.request(app)
       .delete('/api/users/2000')
       .set('x-access-token', userToken)
@@ -300,7 +319,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if a token is not provided', (done) => {
+    it('should fail if a token is not provided on /api/users/id DELETE', (done) => {
       chai.request(app)
       .delete('/api/users/1')
       .end((err, res) => {
@@ -309,7 +328,7 @@ describe('Users', () => {
         done();
       });
     });
-    it('should fail if an invalid token is provided', (done) => {
+    it('should fail if an invalid token is provided on /api/users/id DELETE', (done) => {
       chai.request(app)
       .delete('/api/users/1')
       .set('x-access-token', 'invalid userToken')
@@ -321,13 +340,32 @@ describe('Users', () => {
     });
   });
   describe('Search User', () => {
-    it('should for a specific user', (done) => {
+    it('should search for a user on /api/search/users?q=a GET', (done) => {
       chai.request(app)
       .get('/api/search/users?q=a')
       .set('x-access-token', userToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.message.should.equal('Listing all the users that match the search criteria');
+        done();
+      });
+    });
+    it('should fail if a token is not provided on /api/search/users?q=a GET', (done) => {
+      chai.request(app)
+      .get('/api/search/users?q=a')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.message.should.equal('No token provided');
+        done();
+      });
+    });
+    it('should fail if the token provided is incorrect on /api/search/users?q=a GET', (done) => {
+      chai.request(app)
+      .get('/api/search/users?q=a')
+      .set('x-access-token', 'userToken')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.message.should.equal('Invalid token provided');
         done();
       });
     });
