@@ -18,7 +18,7 @@ class Users {
         userName: req.body.userName
       });
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(400).send(error.errors));
   }
 
   login(req, res) {
@@ -153,6 +153,12 @@ class Users {
       return res.status(200).send({ message: 'Listing all the users that match the search criteria', user });
     })
     .catch(error => res.status(400).send(error));
+  }
+
+  logout(req, res) {
+    res.status(200).send({
+      message: 'You were logged out successfully'
+    });
   }
 }
 exports.Users = Users;
