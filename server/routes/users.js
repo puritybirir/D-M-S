@@ -15,8 +15,8 @@ router.use(authenticate);
 router.get('/users', users.listAll);
 router.get('/users/:id', users.findOne);
 router.put('/users/:id', users.update);
-router.delete('/users/:id', users.delete);
 router.get('/search/users', users.search);
-
+router.post('/users/logout', users.logout);
+router.delete('/users/:id', users.isAdmin, users.delete);
 
 module.exports = router;
