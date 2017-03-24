@@ -7,6 +7,17 @@ const usersHelper = [
     userName: 'kolusola',
     email: 'kolusola@example.com',
     password: '123456',
+    roleId: '1',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    firstName: 'Reedako',
+    lastName: 'Banks',
+    userName: 'RBanks',
+    email: 'reedakobanks@example.com',
+    password: 'stranger',
+    roleId: '2',
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -16,6 +27,7 @@ const usersHelper = [
     userName: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
+    roleId: '1',
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -25,6 +37,7 @@ const usersHelper = [
     userName: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
+    roleId: '1',
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -34,6 +47,7 @@ const usersHelper = [
     userName: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
+    roleId: '1',
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -43,15 +57,7 @@ const usersHelper = [
     userName: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password(),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    userName: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
+    roleId: '1',
     createdAt: new Date(),
     updatedAt: new Date()
   }

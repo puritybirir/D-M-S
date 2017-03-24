@@ -18,7 +18,7 @@ class Users {
         userName: req.body.userName
       });
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(400).send(error.errors));
   }
 
   login(req, res) {
@@ -153,6 +153,26 @@ class Users {
       return res.status(200).send({ message: 'Listing all the users that match the search criteria', user });
     })
     .catch(error => res.status(400).send(error));
+  }
+
+  logout(req, res) {
+    res.status(200).send({
+      message: 'You were logged out successfully'
+    });
+  }
+
+  isAdmin(req, res, next) {
+    if (!req.tokenDecoded) {
+      return res.status(400).send({
+        message: 'You are not logged in'
+      });
+    }
+    if (req.tokenDecoded.roleId !== '2') {
+      return res.status(400).send({
+        message: 'You are not an admin'
+      });
+    }
+    return next();
   }
 }
 exports.Users = Users;

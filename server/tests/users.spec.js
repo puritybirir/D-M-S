@@ -10,6 +10,7 @@ chai.use(chaiHttp);
 
 describe('Users', () => {
   let userToken;
+  let adminToken;
   before((done) => {
     chai.request(app)
     .post('/api/users/login')
@@ -19,6 +20,15 @@ describe('Users', () => {
     })
     .end((err, res) => {
       userToken = res.body.Token;
+    });
+    chai.request(app)
+    .post('/api/users/login')
+    .send({
+      email: dummyUser[1].email,
+      password: dummyUser[1].password
+    })
+    .end((err, res) => {
+      adminToken = res.body.Token;
       done();
     });
   });
@@ -28,16 +38,16 @@ describe('Users', () => {
       chai.request(app)
       .post('/api/users')
       .send({
-        firstName: dummyUser[1].firstName,
-        lastName: dummyUser[1].lastName,
-        userName: dummyUser[1].userName,
-        email: dummyUser[1].email,
-        password: dummyUser[1].password
+        firstName: dummyUser[3].firstName,
+        lastName: dummyUser[3].lastName,
+        userName: dummyUser[3].userName,
+        email: dummyUser[3].email,
+        password: dummyUser[3].password
       })
       .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal('User created succesfully');
-        res.body.firstName.should.equal(dummyUser[1].firstName);
+        res.body.firstName.should.equal(dummyUser[3].firstName);
         done();
       });
     });
@@ -53,7 +63,7 @@ describe('Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.message.should.equal('Validation error');
+        res.body[0].message.should.equal('email must be unique');
         done();
       });
     });
@@ -77,12 +87,12 @@ describe('Users', () => {
       chai.request(app)
       .post('/api/users/login')
       .send({
-        email: dummyUser[1].email,
-        password: dummyUser[1].password
+        email: dummyUser[2].email,
+        password: dummyUser[2].password
       })
       .end((err, res) => {
         res.body.message.should.equal('You have been logged in succesfully');
-        res.body.email.should.equal(dummyUser[1].email);
+        res.body.email.should.equal(dummyUser[2].email);
         should.exist(res.body.Token);
         done();
       });
@@ -91,8 +101,8 @@ describe('Users', () => {
       chai.request(app)
       .post('/api/users/login')
       .send({
-        email: dummyUser[1].email,
-        password: dummyUser[1].password
+        email: dummyUser[2].email,
+        password: dummyUser[2].password
       })
       .end((err, res) => {
         should.exist(res.body.Token);
@@ -103,8 +113,8 @@ describe('Users', () => {
       chai.request(app)
       .post('/api/users/login')
       .send({
-        email: dummyUser[2].email,
-        password: dummyUser[3].password
+        email: dummyUser[3].email,
+        password: dummyUser[4].password
       })
       .end((err, res) => {
         res.should.have.status(401);
@@ -285,7 +295,7 @@ describe('Users', () => {
     });
     it('should fail if invalid token is not provided on /api/users/id PUT', (done) => {
       chai.request(app)
-      .put('/api/users/1')
+      .put('/api/users/4')
       .set('x-access-token', 'invalid token provided')
       .send({
         firstName: 'Tj',
@@ -301,8 +311,8 @@ describe('Users', () => {
   describe('Delete user', () => {
     it('should delete a user on /api/users/id DELETE', (done) => {
       chai.request(app)
-      .delete('/api/users/1')
-      .set('x-access-token', userToken)
+      .delete('/api/users/5')
+      .set('x-access-token', adminToken)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.message.should.equal('User deleted successfully.');
@@ -312,7 +322,7 @@ describe('Users', () => {
     it('should fail if an uncreated user is deleted on /api/users/unknownId DELETE ', (done) => {
       chai.request(app)
       .delete('/api/users/2000')
-      .set('x-access-token', userToken)
+      .set('x-access-token', adminToken)
       .end((err, res) => {
         res.should.have.status(400);
         res.body.message.should.equal('User does not exist');
