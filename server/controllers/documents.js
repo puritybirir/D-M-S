@@ -16,7 +16,7 @@ class Document {
         access: req.body.access || 'private',
         userId: req.tokenDecoded.userId
       })
-      .then(document => res.status(201).send(document))
+      .then(document => res.status(201).send({ message: 'Document has been successfully created', document }))
       .catch(error => res.status(400).send(error));
   }
   listAll(req, res) {
@@ -31,7 +31,7 @@ class Document {
     }
     return documents
     .all()
-    .then(document => res.status(200).send(document))
+    .then(document => res.status(200).send({ message: 'Listing all available documents', document }))
     .catch(error => res.status(400).send(error));
   }
 
@@ -117,7 +117,7 @@ class Document {
           message: 'No users match the search criteria'
         });
       }
-      return res.status(200).send(doc);
+      return res.status(200).send({ message: 'Listing all the users that match the search criteria', doc });
     })
     .catch(error => res.status(400).send(error));
   }
