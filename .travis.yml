@@ -2,6 +2,7 @@ language: node_js
 node_js:
 - stable
 before_install:
+  - npm install -g node-gyp
   - npm install coveralls
   - psql -c 'drop database if exists "dms-test";' -U postgres
   - psql -c 'create database "dms-test";' -U postgres
