@@ -1,6 +1,14 @@
 language: node_js
 node_js:
 - stable
+addons:
+  postgresql: "9.3"
+  apt:
+   sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
 before_install:
   - npm install -g node-gyp
   - npm install coveralls
@@ -12,11 +20,3 @@ script:
   - npm test
 after_success:
   - coveralls
-addons:
-  postgresql: "9.3"
-  apt:
-   sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
