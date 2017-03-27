@@ -6,7 +6,7 @@ services:
 addons:
   postgresql: "9.4"
 before_install:
-  - npm install coveralls sequelize-cli -g
+  - npm install sequelize-cli -g
   - psql -c "CREATE USER puritybirir;" -U postgres
   - psql -c 'drop database if exists dms_test;' -U postgres
   - NODE_ENV=test
