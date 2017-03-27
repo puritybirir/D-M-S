@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- stable
+before_install:
+  - npm install coveralls
+  - psql -c 'drop database if exists dms-test;' -U postgres
+  - psql -c 'create database dms-test;' -U postgres
+services:
+  - postgresql
+script:
+  - npm test
+after_success:
+  - coveralls
+addons:
+  postgresql: "9.3"
