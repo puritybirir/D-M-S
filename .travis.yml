@@ -8,7 +8,6 @@ addons:
 before_install:
   - npm install coveralls
   - psql -c "CREATE USER puritybirir;" -U postgres
-  - psql -c 'drop database if exists dms-test;' -U postgres
   - NODE_ENV=test
   - psql -c 'create database dms-test;' -U postgres
 services:
