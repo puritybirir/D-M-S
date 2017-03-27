@@ -9,8 +9,8 @@ before_install:
   - npm install sequelize-cli -g
   - psql -c "CREATE USER puritybirir;" -U postgres
   - psql -c 'drop database if exists dms_test;' -U postgres
-  - NODE_ENV=test
   - psql -c 'create database dms_test;' -U postgres
+  - NODE_ENV=test
 services:
   - postgresql
 script:
