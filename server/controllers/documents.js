@@ -60,7 +60,6 @@ class Document {
         });
       }
 
-      // Filter
       const updatedDocument = {
         title: req.body.title,
         content: req.body.content,
