@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/andela-pbirir/CP2-DMS#readme",
   "dependencies": {
-    "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",
     "chai": "^3.5.0",
