@@ -1,22 +1,17 @@
 language: node_js
 node_js:
 - stable
+services:
+  - postgresql
 addons:
-  postgresql: "9.3"
-  apt:
-   sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
+  postgresql: "9.4"
 before_install:
-  - npm install -g node-gyp
   - npm install coveralls
-  - psql -c 'drop database if exists "dms-test";' -U postgres
-  - psql -c 'create database "dms-test";' -U postgres
+  - psql -c "CREATE USER puritybirir;" -U postgres
+  - psql -c 'drop database if exists dms-test;' -U postgres
+  - NODE_ENV=test
+  - psql -c 'create database dms-test;' -U postgres
 services:
   - postgresql
 script:
   - npm test
-after_success:
-  - coveralls
