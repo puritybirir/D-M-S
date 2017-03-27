@@ -14,3 +14,9 @@ after_success:
   - coveralls
 addons:
   postgresql: "9.3"
+  apt:
+   sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
