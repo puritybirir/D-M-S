@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const Bcrypt = require('bcrypt-nodejs');
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
@@ -48,16 +48,13 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     hooks: {
-      // TODO make salt env variable
-      beforeCreate(newUser, options, cb) {
-        bcrypt.hash(newUser.password, 10, (err, hash) => {
-          Object.assign(newUser, {
-            password: hash,
-          });
-          return cb(null, options);
-        });
+      beforeCreate(newUser) {
+        const hash = Bcrypt.hashSync(newUser.password, Bcrypt.genSaltSync(process.env.SALTROUNDS),
+         null);
+        newUser.password = hash;
       },
     },
   });
   return user;
 };
+
