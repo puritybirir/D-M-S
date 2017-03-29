@@ -159,7 +159,7 @@ describe('Users', () => {
       });
     });
   });
-  describe('Get all users and paginate', () => {
+  describe('Get all users', () => {
     it('should generate a list of all registered users on /api/users GET', (done) => {
       chai.request(app)
       .get('/api/users')
@@ -186,35 +186,6 @@ describe('Users', () => {
       .end((err, res) => {
         res.should.have.status(401);
         (res.body.message).should.equal('Invalid token provided');
-        done();
-      });
-    });
-    it('should assign page numbers if limit and offset are present on /api/users?limit=2&offset=1 GET', (done) => {
-      chai.request(app)
-      .get('/api/users?limit=2&offset=1')
-      .set('x-access-token', userToken)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('Here are the users that match the set criteria');
-        done();
-      });
-    });
-    it('should fail if a token is not provided on /api/users?limit=2&offset=1 GET', (done) => {
-      chai.request(app)
-      .get('/api/users?limit=2&offset=1')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('No token provided');
-        done();
-      });
-    });
-    it('should fail if the token provided is incorrect on /api/users?limit=2&offset=1 GET', (done) => {
-      chai.request(app)
-      .get('/api/users?limit=2&offset=1')
-      .set('x-access-token', 'userToken')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('Invalid token provided');
         done();
       });
     });

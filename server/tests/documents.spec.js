@@ -152,37 +152,6 @@ describe('Documents', () => {
       });
     });
   });
-  describe('Searches for a specific document', () => {
-    it('should search for a document on GET /api/search/documents/?doctitle=q', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .set('x-access-token', userToken)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('Listing all the users that match the search criteria');
-        done();
-      });
-    });
-    it('should fail if a token is not provided on GET /api/search/documents/?doctitle=q ', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('No token provided');
-        done();
-      });
-    });
-    it('should fail if a wrong token is provided GET /api/search/documents/?doctitle=q ', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .set('x-access-token', 'wrong token')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('Invalid token provided');
-        done();
-      });
-    });
-  });
   describe('Update document', () => {
     it('should update documents details on /api/users/id Update', (done) => {
       chai.request(app)
