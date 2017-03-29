@@ -94,7 +94,7 @@ describe('Roles', () => {
          name: dummyRole[0].name
        })
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
@@ -144,7 +144,7 @@ describe('Roles', () => {
       .get('/api/roles/3')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
@@ -197,7 +197,7 @@ describe('Roles', () => {
         name: 'dummyName'
       })
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
@@ -238,7 +238,7 @@ describe('Roles', () => {
       .get('/api/roles')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
@@ -279,7 +279,7 @@ describe('Roles', () => {
       .delete('/api/roles/5')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
