@@ -160,19 +160,5 @@ class Users {
       message: 'You were logged out successfully'
     });
   }
-
-  isAdmin(req, res, next) {
-    if (!req.tokenDecoded) {
-      return res.status(400).send({
-        message: 'You are not logged in'
-      });
-    }
-    if (req.tokenDecoded.roleId !== '2') {
-      return res.status(400).send({
-        message: 'You are not an admin'
-      });
-    }
-    return next();
-  }
 }
 exports.Users = Users;

@@ -28,11 +28,13 @@ const confirmAdmin = (req, res, next) => {
     });
   }
   if (req.tokenDecoded.roleId !== '2') {
-    return res.status(400).send({
+    return res.status(403).send({
       message: 'You are not an admin'
     });
   }
   return next();
 };
 
+
 module.exports = { authenticate, confirmAdmin };
+

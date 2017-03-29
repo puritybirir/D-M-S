@@ -1,13 +1,7 @@
 const documents = require('../models').document;
 const user = require('../models').user;
 
-/** Class representing a Document. */
 class Document {
-  /**
- * Creates new user
- * @param {object} req
- * @param {object} res
- */
   create(req, res) {
     return documents
       .create({
@@ -120,7 +114,6 @@ class Document {
     })
     .catch(error => res.status(400).send(error));
   }
-
 }
 
 exports.Document = Document;
