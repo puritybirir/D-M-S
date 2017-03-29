@@ -49,11 +49,7 @@ class Roles {
   }
   delete(req, res) {
     return roles
-    .find({
-      where: {
-        id: req.params.id,
-      },
-    })
+    .findById(req.params.id)
     .then((role) => {
       if (!role) {
         return res.status(404).send({
