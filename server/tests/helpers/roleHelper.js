@@ -1,5 +1,3 @@
-const faker = require('faker');
-
 const roleHelper = [
   {
     name: 'user',
@@ -15,12 +13,7 @@ const roleHelper = [
     name: 'trialUser',
     createdAt: new Date(),
     updatedAt: new Date()
-  },
-  {
-    name: 'coolUser',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
+  }
 ];
 
 exports.roleHelper = roleHelper;
