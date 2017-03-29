@@ -50,20 +50,6 @@ describe('Documents', () => {
         done();
       });
     });
-    it('should create a document on /api/documents POST', (done) => {
-      chai.request(app)
-      .post('/api/documents')
-      .set('x-access-token', userToken)
-      .send({
-        title: dummyDocument[0].title,
-        content: dummyDocument[0].content,
-      })
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal('Document has been successfully created');
-        done();
-      });
-    });
     it('should fail to create a document on /api/documents POST if content or title are absent', (done) => {
       chai.request(app)
       .post('/api/documents')
@@ -257,7 +243,7 @@ describe('Documents', () => {
       .delete('/api/users/3')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
