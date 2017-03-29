@@ -35,4 +35,11 @@ const confirmAdmin = (req, res, next) => {
   return next();
 };
 
-module.exports = { authenticate, confirmAdmin };
+const permitAccess = (req, res, next) => {
+  if (req.tokenDecoded.userId === req.param.id || req.tokenDecoded.roleId === '2') {
+
+};
+
+
+module.exports = { authenticate, confirmAdmin, permitAccess };
+
