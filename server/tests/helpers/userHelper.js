@@ -20,47 +20,19 @@ const usersHelper = [
     roleId: '2',
     createdAt: new Date(),
     updatedAt: new Date()
-  },
-  {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    userName: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    roleId: '1',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    userName: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    roleId: '1',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    userName: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    roleId: '1',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    userName: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    roleId: '1',
-    createdAt: new Date(),
-    updatedAt: new Date()
   }
 ];
 
-exports.usersHelper = usersHelper;
+const generateUsers = num => Array.from({ length: num }, () => ({
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  userName: faker.internet.userName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+  roleId: '1',
+  createdAt: new Date(),
+  updatedAt: new Date()
+}));
+
+
+exports.usersHelper = usersHelper.concat(generateUsers(4));
