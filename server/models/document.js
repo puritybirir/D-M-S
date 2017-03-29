@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const document = sequelize.define('document', {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     access: DataTypes.STRING,

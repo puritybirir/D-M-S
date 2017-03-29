@@ -18,7 +18,7 @@
       "consistent-return": 0,
       "no-param-reassign": 0,
       "comma-dangle": 0,
-      "curly": ["error", "multi"],
+      "curly": ["error", "multi-line"],
       "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
       "valid-jsdoc": ["error", {
         "requireReturn": true,

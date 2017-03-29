@@ -2,20 +2,21 @@
   "development": {
     "username": "puritybirir",
     "password": null,
-    "database": "dms-dev",
+    "database": "dms_dev",
     "host": "127.0.0.1",
     "port":5432,
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
+    "username": "puritybirir",
     "password": null,
-    "database": "dms-test",
+    "database": "dms_test",
     "host": "127.0.0.1",
     "port":5432,
     "dialect": "postgres"
   },
   "production": {
-    "database": "DATABASE_URL"
+    "database": "DATABASE_URL",
+    "dialect": "postgres"
   }
 }

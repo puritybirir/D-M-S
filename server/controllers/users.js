@@ -1,7 +1,7 @@
 require('dotenv').config();
 const User = require('../models').user;
 const document = require('../models').document;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 
 class Users {
@@ -18,24 +18,24 @@ class Users {
         userName: req.body.userName
       });
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(400).send(error.errors));
   }
 
   login(req, res) {
-    if (req.body.email && req.body.password)
+    if (req.body.email && req.body.password) {
       User.findOne({
         where: {
           email: req.body.email,
         }
       }).then((user) => {
-        if (!user)
+        if (!user) {
           return res.send({
             message: 'Unknown user',
           });
+        }
 
         return bcrypt.compare(req.body.password, user.password, (err, result) => {
-          if (err)
-            res.status(401).send({ error: err });
+          if (err) { res.status(401).send({ error: err }); }
 
           if (result) {
             const payload = {
@@ -44,33 +44,35 @@ class Users {
               roleId: user.roleId
             };
             const token = jwt.sign(payload, process.env.SECRET, { expiresIn: 60 * 60 });
-            res.send({ email: user.email, Token: token });
-          } else
+            res.send({ message: 'You have been logged in succesfully', email: user.email, Token: token });
+          } else {
             res.status(401).send({
               message: 'Email/Password mismatch',
             });
+          }
         });
       })
       .catch(err => res.send(err));
-    else
+    } else {
       res.status(400).send({
         message: 'No email or password provided',
       });
+    }
   }
 
   listAll(req, res) {
-    if (req.query.limit || req.query.offset)
+    if (req.query.limit || req.query.offset) {
       return User
     .findAll({
       limit: req.query.limit,
       offset: req.query.offset
     })
-  .then(user => res.status(200).send(user))
+  .then(user => res.status(200).send({ message: 'Here are the users that match the set criteria', user }))
   .catch(error => res.status(400).send(error));
-
+    }
     return User
     .findAll()
-    .then(users => res.status(200).send(users))
+    .then(users => res.status(200).send({ message: 'Listing all available users', users }))
     .catch(error => res.status(400).send(error));
   }
 
@@ -83,11 +85,11 @@ class Users {
       }],
     })
     .then((user) => {
-      if (!user)
+      if (!user) {
         return res.status(404).send({
           message: 'User Not Found',
         });
-
+      }
       return res.status(200).send(user);
     })
     .catch(error => res.status(400).send(error));
@@ -97,10 +99,11 @@ class Users {
     return User
     .findById(req.params.id)
     .then((user) => {
-      if (!user)
+      if (!user) {
         return res.status(404).send({
           message: 'User Not Found',
         });
+      }
 
       return user
         .update(req.body)
@@ -114,10 +117,11 @@ class Users {
     return User
     .findById(req.params.id)
     .then((user) => {
-      if (!user)
+      if (!user) {
         return res.status(400).send({
-          message: 'Todo Not Found',
+          message: 'User does not exist',
         });
+      }
 
       return user
         .destroy()
@@ -141,13 +145,34 @@ class Users {
     })
 
     .then((user) => {
-      if (user.length < 1)
+      if (user.length < 1) {
         return res.status(400).send({
           message: 'No users match the search criteria'
         });
-      return res.status(200).send(user);
+      }
+      return res.status(200).send({ message: 'Listing all the users that match the search criteria', user });
     })
     .catch(error => res.status(400).send(error));
+  }
+
+  logout(req, res) {
+    res.status(200).send({
+      message: 'You were logged out successfully'
+    });
+  }
+
+  isAdmin(req, res, next) {
+    if (!req.tokenDecoded) {
+      return res.status(400).send({
+        message: 'You are not logged in'
+      });
+    }
+    if (req.tokenDecoded.roleId !== '2') {
+      return res.status(400).send({
+        message: 'You are not an admin'
+      });
+    }
+    return next();
   }
 }
 exports.Users = Users;
