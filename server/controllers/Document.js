@@ -1,7 +1,21 @@
 const documents = require('../models').document;
 const user = require('../models').user;
 
+/**
+ * Document Class
+ *
+ * @class
+ */
 class Document {
+  /**
+   * create
+   *
+   * Creates a document
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   create(req, res) {
     return documents
       .create({
@@ -14,6 +28,7 @@ class Document {
       .catch(error => res.status(400).send(error));
   }
   listAll(req, res) {
+    const mydocs = req.data;
     if (req.query.limit || req.query.offset) {
       return documents
     .findAll({
@@ -24,11 +39,24 @@ class Document {
   .catch(error => res.status(400).send(error));
     }
     return documents
-    .all()
-    .then(document => res.status(200).send({ message: 'Listing all available documents', document }))
+    .findAll({
+      where: {
+        access: 'public'
+      }
+    })
+    .then(document => res.status(200).send({ message: 'Listing all available documents', document, mydocs }))
     .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * findOne
+   *
+   * Finds a particular document
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   findOne(req, res) {
     return documents
     .findById(req.params.id)
@@ -44,6 +72,15 @@ class Document {
     .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * update
+   *
+   * Updates document
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   update(req, res) {
     return documents
     .findById(req.params.id)
@@ -67,6 +104,15 @@ class Document {
     .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * delete
+   *
+   * Deletes document
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   delete(req, res) {
     return documents
     .find({
@@ -92,6 +138,15 @@ class Document {
     .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * search
+   *
+   * Searches for a document
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   search(req, res) {
     return documents
     .findAll({
@@ -107,10 +162,10 @@ class Document {
     .then((doc) => {
       if (doc.length < 1) {
         return res.status(400).send({
-          message: 'No users match the search criteria'
+          message: 'No documents match the search criteria'
         });
       }
-      return res.status(200).send({ message: 'Listing all the users that match the search criteria', doc });
+      return res.status(200).send({ message: 'Listing all the documents that match the search criteria', doc });
     })
     .catch(error => res.status(400).send(error));
   }
