@@ -48,19 +48,6 @@ describe('Roles', () => {
         done();
       });
     });
-    it('should create a role on /api/roles POST', (done) => {
-      chai.request(app)
-      .post('/api/roles')
-      .set('x-access-token', adminToken)
-      .send({
-        name: dummyRole[0].name
-      })
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal('Role created succesfully');
-        done();
-      });
-    });
     it('should fail to create a role on /api/roles POST if token not present', (done) => {
       chai.request(app)
       .post('/api/roles')

@@ -47,7 +47,7 @@ describe('Users', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal('User created succesfully');
-        res.body.firstName.should.equal(dummyUser[3].firstName);
+        res.body.user.firstName.should.equal(dummyUser[3].firstName);
         done();
       });
     });
@@ -78,8 +78,8 @@ describe('Users', () => {
         password: dummyUser[2].password
       })
       .end((err, res) => {
-        res.body.should.have.property('roleId');
-        res.body.roleId.should.equal('1');
+        res.body.user.should.have.property('roleId');
+        res.body.user.roleId.should.equal('1');
         done();
       });
     });

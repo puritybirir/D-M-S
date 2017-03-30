@@ -39,7 +39,7 @@ describe('Search', () => {
       .set('x-access-token', userToken)
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.message.should.equal('Listing all the users that match the search criteria');
+        res.body.message.should.equal('Listing all the documents that match the search criteria');
         done();
       });
     });
