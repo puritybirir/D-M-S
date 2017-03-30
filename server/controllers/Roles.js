@@ -1,6 +1,19 @@
 const roles = require('../models').Role;
-
+/**
+ * Roles Class
+ *
+ * @class
+ */
 class Roles {
+  /**
+   * create
+   *
+   * Creates a role
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   create(req, res) {
     return roles
     .create(req.body)
@@ -12,6 +25,16 @@ class Roles {
     })
     .catch(error => res.status(400).send(error.errors));
   }
+
+  /**
+   * update
+   *
+   * Updates a role
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   update(req, res) {
     return roles
     .findById(req.params.id)
@@ -28,6 +51,16 @@ class Roles {
     })
     .catch(error => res.status(400).send(error));
   }
+
+  /**
+   * findOne
+   *
+   * Finds a specific role
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   findOne(req, res) {
     return roles
     .findById(req.params.id)
@@ -41,19 +74,35 @@ class Roles {
     })
     .catch(error => res.status(400).send(error));
   }
+
+  /**
+   * listAll
+   *
+   * Lists all roles
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   listAll(req, res) {
     return roles
     .findAll()
     .then(role => res.status(200).send({ message: 'Listing all available roles', role }))
     .catch(error => res.status(400).send(error));
   }
+
+  /**
+   * delete
+   *
+   * Deletes a role
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   delete(req, res) {
     return roles
-    .find({
-      where: {
-        id: req.params.id,
-      },
-    })
+    .findById(req.params.id)
     .then((role) => {
       if (!role) {
         return res.status(404).send({

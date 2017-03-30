@@ -1,0 +1,593 @@
+FORMAT: 1A
+
+# Document Management System API
+
+Document management system is a simple API used to track, manage and store documents.
+
+## User routes [api/users]
+
+### Create User [POST]
+
++ Request (application/json)
+
+        {
+            userName: "JohnDoe",
+            firstName: "John" ;
+            lastName: "Doe";
+            email: johndoe@example.com
+            password: ThisIsMyPassword
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "User created succesfully",
+                "user": {
+                "id": 11,
+                "userName": "JohnDoe",
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "johndoe@example.com",
+                "password": "$$2a$10$qx8ltljMGxSY6TUxPel7ye50jfZeGj3Aj4SIcQMfgtaE5K35KjxPO",
+                "roleId": "1",
+                "updatedAt": "2017-03-29T21:43:21.501Z",
+                "createdAt": "2017-03-29T21:43:21.501Z
+                  }
+            }
+
+
+### Login [POST]
+
++ Request (application/json)
+
+        {
+            email: johndoe@example.com
+            password: ThisIsMyPassword
+
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                 "message": "You have been logged in succesfully",
+                 "email": "johndoe@example.com",
+                 "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJ1c2VySWQiOjExLCJyb2xlSWQiOiIxIiwiaWF0IjoxNDkwODQ4MTE3LCJleHAiOjE0OTA4NTE
+                 3MTd9.GydJKWQI3LhPy8kj0gyXXb49qo2t4cC1o1fRnAg1xlk"
+
+            }
+
+### Find One User[GET]
+
++ Request (application/json)
+
+        {
+            x-access-token : Token
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+                "id": 11,
+                "firstName": "John",
+                "lastName": "Doe",
+                "userName": "JohnDoe",
+                "email": "johndoe@example.com",
+                "password": "$2a$10$qx8ltljMGxSY6TUxPel7ye50jfZeGj3Aj4SIcQMfgtaE5K35KjxPO",
+                "roleId": "1",
+                "createdAt": "2017-03-30T04:25:18.497Z",
+                "updatedAt": "2017-03-30T04:25:18.497Z",
+                "document": []
+            }
+
+### List All Users[GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+                "message": "Listing all available users",
+                "users": [
+                    {
+                        "id": 1,
+                        "firstName": "SpongeBob",
+                        "lastName": "SquarePants",
+                        "userName": "SpongeBoB",
+                        "email": "spongebobsquarepants@example.com",
+                        "password": "$2a$10$4vIqI8BYqW/lhVgiyaxumumdlbwl4onRZL3R7CW56oKPnBIadZf7e",
+                         "roleId": "1",
+                        "createdAt": "2017-03-29T08:16:57.514Z",
+                        "updatedAt": "2017-03-29T08:16:57.514Z"
+                    },
+                    {
+                        "id": 2,
+                        "firstName": "Number",
+                        "lastName": "Four",
+                        "userName": "Four",
+                        "email": "kidsnextdoor@example.com",
+                        "password": "$2a$10$R.1DPisLOhX7SLOJUxJ4ve5I0B3p1v5q2UGnGHySXooCzw/GANIS6",
+                        "roleId": "1",
+                        "createdAt": "2017-03-29T08:21:06.778Z",
+                        "updatedAt": "2017-03-29T08:21:06.778Z"
+                    },
+                    {
+                      "id": 3,
+                      "firstName": "Imaginary",
+                      "lastName": "Friends",
+                      "userName": "Blue",
+                      "email": "imaginaryfriends@example.com",
+                      "password": "$2a$10$dQUui7RafirI4aMAKrWucO7Wqn6qFVszVE0cXU5U59hUo7tOlKziu",
+                      "roleId": "1",
+                      "createdAt": "2017-03-29T08:22:01.353Z",
+                      "updatedAt": "2017-03-29T08:22:01.353Z"
+                    }
+                ]
+            }
+
+### Update User[GET]
+
++ Request (application/json)
+
+        {
+            email: normalcy@gmail.com
+
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "id": 5,
+              "firstName": "Normal",
+              "lastName": "Guy",
+              "userName": "user",
+              "email": "normalcy@gmail.com",
+              "password": "$2a$10$LaHDhWN.Q5HGOhwsavgxPeIVd0A9kktYfJzS1aA6PPj/A.4wzq.5K",
+              "roleId": "1",
+              "createdAt": "2017-03-29T18:53:16.635Z",
+              "updatedAt": "2017-03-30T06:23:06.102Z"
+            }
+
+### Delete User[DEL]
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+                  "message": "User deleted successfully."
+            }
+
+### Search User[GET]
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+     + Body
+
+            {
+                "message": "Listing all the users that match the search criteria",
+                "user": [
+                    {
+                      "id": 4,
+                      "firstName": "Purity",
+                      "lastName": "Birir",
+                      "userName": "admin",
+                      "email": "puritybirir@example.com",
+                      "password": "$2a$10$otLHU9WsMhI1RyET7mapT.6fXNYsihAiNylovo1TFlAB5y1Rrjnke",
+                      "roleId": "2",
+                      "createdAt": "2017-03-29T08:22:41.384Z",
+                      "updatedAt": "2017-03-29T08:22:41.384Z"
+                    },
+                    {
+                      "id": 8,
+                      "firstName": "admin",
+                      "lastName": "user",
+                      "userName": "admin",
+                      "email": "adminuser@example.com",
+                      "password": "$2a$10$fSN6VvRES5rYjDowduwyc.eC2UhRhh6gqo2B.5AAr69Vb890KUkpy",
+                      "roleId": "2",
+                      "createdAt": "2017-03-29T20:13:24.467Z",
+                      "updatedAt": "2017-03-29T20:13:24.467Z"
+                    }
+                ]
+            }
+
+### User Pagination[GET]
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+     + Body
+
+            {
+                "message": "Here are the users that match the set criteria",
+                  "user": [
+                    {
+                      "id": 2,
+                      "firstName": "Number",
+                      "lastName": "Four",
+                      "userName": "Four",
+                      "email": "kidsnextdoor@example.com",
+                      "password": "$2a$10$R.1DPisLOhX7SLOJUxJ4ve5I0B3p1v5q2UGnGHySXooCzw/GANIS6",
+                      "roleId": "1",
+                      "createdAt": "2017-03-29T08:21:06.778Z",
+                      "updatedAt": "2017-03-29T08:21:06.778Z"
+                    },
+                    {
+                      "id": 3,
+                      "firstName": "Imaginary",
+                      "lastName": "Friends",
+                      "userName": "Blue",
+                      "email": "imaginaryfriends@example.com",
+                      "password": "$2a$10$dQUui7RafirI4aMAKrWucO7Wqn6qFVszVE0cXU5U59hUo7tOlKziu",
+                      "roleId": "1",
+                      "createdAt": "2017-03-29T08:22:01.353Z",
+                      "updatedAt": "2017-03-29T08:22:01.353Z"
+                    }
+                  ]
+            }
+
+### Logout User[POST]
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+                  "message": "You were logged out successfully"
+            }
+
+## Doc routes[api/documents]
+
+### Create Document [POST]
+
++ Request (application/json)
+
+        {
+            title: "Testing things out",
+            content: "Stuff and more stuff " ;
+            access: "public";
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "Document has been successfully created",
+                "document": {
+                "id": 5,
+                "title": "Testing things out",
+                "content": "Stuff and more stuff ",
+                "access": "public",
+                "userId": 8,
+                "updatedAt": "2017-03-30T06:46:09.304Z",
+                "createdAt": "2017-03-30T06:46:09.304Z"
+                }
+            }
+
+### Get One Document[GET]
+
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+           {
+            "id": 3,
+            "title": "what",
+            "content": "There is also an infinite set of numbers between 1 and 10. Cantor's proof goes on to sat that some infinities are bigger than others.",
+            "access": "private",
+            "createdAt": "2017-03-29T19:16:54.273Z",
+            "updatedAt": "2017-03-29T19:16:54.273Z",
+            "userId": 7
+            }
+
+### List All Documents[GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+                "message": "Listing all available documents",
+                "document": [
+                    {
+                      "id": 1,
+                      "title": "Funny Stuff",
+                      "content": "Funny Stuff is always hilarious",
+                      "access": "public",
+                      "createdAt": "2017-03-29T18:50:04.171Z",
+                      "updatedAt": "2017-03-29T18:50:04.171Z",
+                      "userId": 4
+                    },
+                    {
+                      "id": 5,
+                      "title": "Testing things out",
+                      "content": "Stuff and more stuff ",
+                      "access": "public",
+                      "createdAt": "2017-03-30T06:46:09.304Z",
+                      "updatedAt": "2017-03-30T06:46:09.304Z",
+                      "userId": 8
+                    }
+                ]
+            }
+
+### Find One Document[GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "id": 1,
+              "title": "Funny Stuff",
+              "content": "Funny Stuff is always hilarious",
+              "access": "public",
+              "createdAt": "2017-03-29T18:50:04.171Z",
+              "updatedAt": "2017-03-29T18:50:04.171Z",
+              "userId": 4
+            }
+
+### Update Document[GET]
+
++ Request (application/json)
+
+        {
+            title: "Funnier Stuff"
+
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "id": 1,
+              "title": "Funnier Stuff",
+              "content": "Funny Stuff is always hilarious",
+              "access": "public",
+              "createdAt": "2017-03-29T18:50:04.171Z",
+              "updatedAt": "2017-03-30T07:07:06.870Z",
+              "userId": 4
+            }
+
+### Search Document[GET]
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+     + Body
+
+            {
+                "message": "Listing all the documents that match the search criteria",
+                "doc": [
+                    {
+                          "id": 2,
+                          "title": "The Fault in our stars",
+                          "content": "There are an infinite set of numbers between 0 and 1. There is also an infinite set of numbers between 1 and 10. Cantor's proof goes on to sat that some infinities are bigger than others.",
+                          "access": "private",
+                          "createdAt": "2017-03-29T18:51:36.282Z",
+                          "updatedAt": "2017-03-29T18:51:36.282Z",
+                          "userId": 4
+                        },
+                        {
+                          "id": 4,
+                          "title": "For woc Bew",
+                          "content": "No idea what this thing says",
+                          "access": "private",
+                          "createdAt": "2017-03-29T20:44:38.481Z",
+                          "updatedAt": "2017-03-29T20:44:38.481Z",
+                          "userId": 9
+                        },
+                        {
+                          "id": 5,
+                          "title": "Testing things out",
+                          "content": "Stuff and more stuff ",
+                          "access": "public",
+                          "createdAt": "2017-03-30T06:46:09.304Z",
+                          "updatedAt": "2017-03-30T06:46:09.304Z",
+                          "userId": 8
+                    }
+                ]
+            }
+
+### Document Pagination[GET]
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+     + Body
+
+            [
+              {
+                "id": 4,
+                "title": "For woc Bew",
+                "content": "No idea what this thing says",
+                "access": "private",
+                "createdAt": "2017-03-29T20:44:38.481Z",
+                "updatedAt": "2017-03-29T20:44:38.481Z",
+                "userId": 9
+              },
+              {
+                "id": 5,
+                "title": "Testing things out",
+                "content": "Stuff and more stuff ",
+                "access": "public",
+                "createdAt": "2017-03-30T06:46:09.304Z",
+                "updatedAt": "2017-03-30T06:46:09.304Z",
+                "userId": 8
+              }
+            ]
+
+### Delete Document[DEL]
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "message": "Document deleted successfully"
+            }
+
+## Roles routes[api/roles]
+### Create Role [POST]
+
++ Request (application/json)
+
+        {
+            name: "admin",
+            roleId: 1
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "message": "Role created succesfully",
+              "role": {
+                "id": 2,
+                "name": "super-admin",
+                "updatedAt": "2017-03-30T07:24:52.695Z",
+                "createdAt": "2017-03-30T07:24:52.695Z"
+              }
+}
+
+### Find One Role[GET]
+
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+           {
+              "id": 1,
+              "name": "super-admin",
+              "createdAt": "2017-03-30T07:24:40.485Z",
+              "updatedAt": "2017-03-30T07:24:40.485Z"
+            }
+
+### List All Roles[GET]
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "message": "Listing all available roles",
+              "role": [
+                {
+                  "id": 2,
+                  "name": "super-admin",
+                  "createdAt": "2017-03-30T07:24:40.485Z",
+                  "updatedAt": "2017-03-30T07:24:40.485Z"
+                },
+                {
+                  "id": 2,
+                  "name": "admin",
+                  "createdAt": "2017-03-30T07:24:52.695Z",
+                  "updatedAt": "2017-03-30T07:24:52.695Z"
+                }
+              ]
+            }
+
+### Update Role[GET]
+
++ Request (application/json)
+
+        {
+           name: "admin"
+
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "id": 2,
+              "name": "admin",
+              "createdAt": "2017-03-30T07:24:52.695Z",
+              "updatedAt": "2017-03-30T07:32:07.175Z"
+            }
+
+### Delete Role[DEL]
++ Response 201 (application/json)
+
+    + Headers
+
+            x-access-token : Token
+
+    + Body
+
+            {
+              "message": "Role deleted successfully"
+            }

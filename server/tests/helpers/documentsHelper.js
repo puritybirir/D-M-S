@@ -1,41 +1,18 @@
 const faker = require('faker');
 
-const documentsHelper = [
-  {
+const fakeDocument = (overrides = {}) => {
+  const doc = {
     title: faker.lorem.text(),
     content: faker.lorem.paragraphs(),
     userId: 5,
     createdAt: new Date(),
     updatedAt: new Date()
-  },
-  {
-    title: faker.lorem.text(),
-    content: faker.lorem.paragraphs(),
-    userId: 4,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    title: faker.lorem.text(),
-    content: faker.lorem.paragraphs(),
-    userId: 3,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    title: faker.lorem.text(),
-    content: faker.lorem.paragraphs(),
-    userId: 2,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    title: faker.lorem.text(),
-    content: faker.lorem.paragraphs(),
-    userId: 1,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
-];
+  };
+
+  return Object.assign(doc, overrides);
+};
+
+const documentsHelper = Array.from({ length: 4 }, () => fakeDocument({ userId: '1' }));
 
 exports.documentsHelper = documentsHelper;
+

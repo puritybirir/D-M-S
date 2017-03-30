@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const documents = require('../models').document;
 
 const authenticate = (req, res, next) => {
   const token = req.query.token || req.headers['x-access-token'];
@@ -28,11 +29,52 @@ const confirmAdmin = (req, res, next) => {
     });
   }
   if (req.tokenDecoded.roleId !== '2') {
-    return res.status(400).send({
+    return res.status(403).send({
       message: 'You are not an admin'
     });
   }
   return next();
 };
 
-module.exports = { authenticate, confirmAdmin };
+const docUserAccess = (req, res, next) => {
+  if (req.tokenDecoded.roleId === '1') {
+    return documents
+    .find({
+      where: {
+        userId: req.tokenDecoded.userId
+      },
+    })
+    .then((docs) => {
+      req.data = docs;
+      next();
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    });
+  }
+  next();
+};
+
+const docAdminAccess = (req, res, next) => {
+  if (req.tokenDecoded.roleId === '2') {
+    return documents
+    .find({
+      where: {
+        access: 'private' && 'public'
+      },
+    })
+    .then((docs) => {
+      req.data = docs;
+      next();
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    });
+  }
+  next();
+};
+
+
+
+module.exports = { authenticate, confirmAdmin, docAdminAccess, docUserAccess };
+

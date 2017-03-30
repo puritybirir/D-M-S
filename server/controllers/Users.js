@@ -4,23 +4,42 @@ const document = require('../models').document;
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 
+/**
+ * Users Class
+ *
+ * @class
+ */
 class Users {
+  /**
+   * create
+   *
+   * Creates a user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   create(req, res) {
     return User
     .create(req.body)
     .then((user) => {
       res.status(201).send({
         message: 'User created succesfully',
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        roleId: user.roleId,
-        userName: req.body.userName
+        user
       });
     })
     .catch(error => res.status(400).send(error.errors));
   }
 
+  /**
+   * login
+   *
+   * Logs in a user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   login(req, res) {
     if (req.body.email && req.body.password) {
       User.findOne({
@@ -60,6 +79,15 @@ class Users {
     }
   }
 
+  /**
+   * listAll
+   *
+   * Lists all users
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   listAll(req, res) {
     if (req.query.limit || req.query.offset) {
       return User
@@ -75,6 +103,15 @@ class Users {
     .then(users => res.status(200).send({ message: 'Listing all available users', users }))
     .catch(error => res.status(400).send(error));
   }
+  /**
+   * findOne
+   *
+   * Finds one user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
 
   findOne(req, res) {
     return User
@@ -95,6 +132,14 @@ class Users {
     .catch(error => res.status(400).send(error));
   }
 
+  /* update
+   *
+   * updates one user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   update(req, res) {
     return User
     .findById(req.params.id)
@@ -113,6 +158,14 @@ class Users {
     .catch(error => res.status(400).send(error));
   }
 
+  /* delete
+   *
+   * deletes a user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   delete(req, res) {
     return User
     .findById(req.params.id)
@@ -131,6 +184,14 @@ class Users {
     .catch(error => res.status(400).send(error));
   }
 
+  /* search
+   *
+   * searches for a user
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   search(req, res) {
     return User
     .findAll({
@@ -155,24 +216,18 @@ class Users {
     .catch(error => res.status(400).send(error));
   }
 
+  /* search
+   *
+   *logs a user out
+   *
+   * @param {Object} req Request object
+   * @param {Object} res Response object
+   * @returns {Void} Returns Void
+   */
   logout(req, res) {
     res.status(200).send({
       message: 'You were logged out successfully'
     });
-  }
-
-  isAdmin(req, res, next) {
-    if (!req.tokenDecoded) {
-      return res.status(400).send({
-        message: 'You are not logged in'
-      });
-    }
-    if (req.tokenDecoded.roleId !== '2') {
-      return res.status(400).send({
-        message: 'You are not an admin'
-      });
-    }
-    return next();
   }
 }
 exports.Users = Users;

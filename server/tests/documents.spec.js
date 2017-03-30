@@ -50,20 +50,6 @@ describe('Documents', () => {
         done();
       });
     });
-    it('should create a document on /api/documents POST', (done) => {
-      chai.request(app)
-      .post('/api/documents')
-      .set('x-access-token', userToken)
-      .send({
-        title: dummyDocument[0].title,
-        content: dummyDocument[0].content,
-      })
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.message.should.equal('Document has been successfully created');
-        done();
-      });
-    });
     it('should fail to create a document on /api/documents POST if content or title are absent', (done) => {
       chai.request(app)
       .post('/api/documents')
@@ -166,59 +152,28 @@ describe('Documents', () => {
       });
     });
   });
-  describe('Searches for a specific document', () => {
-    it('should search for a document on GET /api/search/documents/?doctitle=q', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .set('x-access-token', userToken)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.message.should.equal('Listing all the users that match the search criteria');
-        done();
-      });
-    });
-    it('should fail if a token is not provided on GET /api/search/documents/?doctitle=q ', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('No token provided');
-        done();
-      });
-    });
-    it('should fail if a wrong token is provided GET /api/search/documents/?doctitle=q ', (done) => {
-      chai.request(app)
-      .get('/api/search/documents/?doctitle=o')
-      .set('x-access-token', 'wrong token')
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.message.should.equal('Invalid token provided');
-        done();
-      });
-    });
-  });
   describe('Update document', () => {
-    it('should update documents details on /api/users/id Update', (done) => {
+    it('should update documents details on /api/documents/id Update', (done) => {
       chai.request(app)
-      .put('/api/users/1')
-      .set('x-access-token', userToken)
+      .put('/api/documents/1')
+      .set('x-access-token', adminToken)
       .send({
-        firstName: 'Sloth',
-        lastName: 'Flash',
+        title: 'Sloth',
+        content: 'Flash',
       })
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.firstName.should.equal('Sloth');
-        res.body.lastName.should.equal('Flash');
+        res.body.title.should.equal('Sloth');
+        res.body.content.should.equal('Flash');
         done();
       });
     });
-    it('should fail if a token is not provided on /api/users/id Update', (done) => {
+    it('should fail if a token is not provided on /api/documents/id Update', (done) => {
       chai.request(app)
-      .put('/api/users/1')
+      .put('/api/documents/1')
       .send({
-        firstName: 'Sloth',
-        lastName: 'Flash',
+        title: 'Sloth',
+        content: 'Flash',
       })
       .end((err, res) => {
         res.should.have.status(401);
@@ -226,13 +181,27 @@ describe('Documents', () => {
         done();
       });
     });
-    it('should fail if a wrong token is provided on /api/users/id Update', (done) => {
+    it('should fail to update a document on /api/documents/id document does not exist', (done) => {
+      chai.request(app)
+      .put('/api/documents/1000')
+      .set('x-access-token', adminToken)
+      .send({
+        title: 'Sloth',
+        content: 'Flash',
+      })
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.message.should.equal('Document Not Found');
+        done();
+      });
+    });
+    it('should fail if a wrong token is provided on/api/documents/id Update', (done) => {
       chai.request(app)
       .put('/api/users/1')
       .set('x-access-token', 'wrong token')
       .send({
-        firstName: 'Sloth',
-        lastName: 'Flash',
+        title: 'Sloth',
+        content: 'Flash',
       })
       .end((err, res) => {
         res.should.have.status(401);
@@ -242,29 +211,29 @@ describe('Documents', () => {
     });
   });
   describe('Delete document', () => {
-    it('should delete a user on /api/users/id Delete', (done) => {
+    it('should delete a document on /api/documents/id Delete', (done) => {
       chai.request(app)
-      .delete('/api/users/3')
+      .delete('/api/documents/3')
       .set('x-access-token', adminToken)
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.message.should.equal('User deleted successfully.');
+        res.body.message.should.equal('Document deleted successfully');
         done();
       });
     });
-    it('should fail to delete a user on /api/users/id Delete if not an admin', (done) => {
+    it('should fail to delete a document on /api/documents/id Delete if not an admin', (done) => {
       chai.request(app)
-      .delete('/api/users/3')
+      .delete('/api/documents/3')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(403);
         res.body.message.should.equal('You are not an admin');
         done();
       });
     });
-    it('should fail to delete a user if wrong token is provided on /api/users/id Delete', (done) => {
+    it('should fail to delete a document if wrong token is provided on /api/documents/id Delete', (done) => {
       chai.request(app)
-      .delete('/api/users/3')
+      .delete('/api/documents/3')
       .set('x-access-token', 'wrong adminToken')
       .end((err, res) => {
         res.should.have.status(401);
@@ -272,9 +241,9 @@ describe('Documents', () => {
         done();
       });
     });
-    it('should fail to delete a user if no token is provided on /api/users/id Delete', (done) => {
+    it('should fail to delete a document if no token is provided on /api/documents/id Delete', (done) => {
       chai.request(app)
-      .delete('/api/users/3')
+      .delete('/api/documents/3')
       .end((err, res) => {
         res.should.have.status(401);
         res.body.message.should.equal('No token provided');

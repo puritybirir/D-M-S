@@ -1,0 +1,3 @@
+server/models/index.js
+server/seeders
+server/migrations
