@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "./node_modules/.bin/sequelize db:migrate",
     "start:dev": "nodemon ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "test": "NODE_ENV=test && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && istanbul cover _mocha ./server/tests/*.js --recursive && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -19,26 +21,29 @@
   },
   "homepage": "https://github.com/andela-pbirir/CP2-DMS#readme",
   "dependencies": {
-    "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^7.3.0",
     "mocha": "^3.2.0",
     "morgan": "^1.8.1",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.2"
+    "sequelize": "^3.30.2",
+    "sequelize-cli": "^2.7.0"
   },
   "devDependencies": {
+    "coveralls": "^2.12.0",
     "eslint": "^3.16.1",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
+    "istanbul": "^0.4.5",
     "nodemon": "^1.11.0"
   }
 }

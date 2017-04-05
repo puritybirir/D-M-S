@@ -1,0 +1,23 @@
+{
+  "name": "CP2-DMS",
+  "scripts": {
+  },
+  "env": {
+    "SALTROUNDS": {
+      "required": true
+    },
+    "SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

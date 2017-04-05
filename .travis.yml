@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- 7.2.1
+services:
+  - postgresql
+addons:
+  postgresql: "9.4"
+before_install:
+  - npm install sequelize-cli -g
+  - psql -c "CREATE USER puritybirir;" -U postgres
+  - psql -c 'drop database if exists dms_test;' -U postgres
+  - psql -c 'create database dms_test;' -U postgres
+  - NODE_ENV=test
+services:
+  - postgresql
+script:
+  - npm test

@@ -1,6 +1,6 @@
-const documents = require('./documents').Document;
-const roles = require('./roles');
-const users = require('./users').Users;
+const documents = require('./Document').Document;
+const roles = require('./Roles').Roles;
+const users = require('./Users').Users;
 
 module.exports = {
   documents,

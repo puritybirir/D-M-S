@@ -6,3 +6,9 @@ node_modules
 
 # Vs code
 .vscode
+
+#Coverage
+coverage/
+
+npm-debug.log
+
