@@ -1,6 +1,7 @@
 {
   "name": "CP2-DMS",
-  "scripts": {},
+  "scripts": {
+  },
   "env": {
     "SALTROUNDS": {
       "required": true
@@ -9,7 +10,8 @@
       "required": true
     }
   },
-  "formation": {},
+  "formation": {
+  },
   "addons": [
     "heroku-postgresql"
   ],
