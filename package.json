@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack-dev-server",
     "prestart": "./node_modules/.bin/sequelize db:migrate",
     "start:dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
@@ -38,10 +37,13 @@
     "pg-hstore": "^2.3.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-hot-loader": "^1.3.1",
     "sequelize": "^3.30.2",
     "sequelize-cli": "^2.7.0",
     "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-dev-server": "^2.4.2",
+    "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",
@@ -55,6 +57,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "istanbul": "^0.4.5",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "webpack": "^2.1.0-beta.22"
   }
 }
