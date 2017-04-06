@@ -1,29 +1,33 @@
-/*
-    ./webpack.config.js
-*/
 const path = require('path');
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './client/index.html',
-  filename: 'index.html',
-  inject: 'body'
-});
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './client/index.js',
+  devtools: 'eval-source-map',
+  entry: [
+    'webpack-hot-middleware/client',
+    path.join(__dirname, './client/index.js')
+  ],
   output: {
-    path: path.resolve('dist'),
-    filename: 'index_bundle.js'
+    path: '/',
+    publicPath: '/',
+    filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+      {
+        test: /\.js$/,
+        include: path.join(__dirname, 'client'),
+        loaders: ['react-hot', 'babel']
+      }
     ]
   },
-// add this line
-  plugins: [HtmlWebpackPluginConfig]
+  resolve: {
+    extensions: ['', '.js']
+  }
 };
 
