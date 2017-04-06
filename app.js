@@ -1,3 +1,8 @@
+const webpack = require('webpack');
+
+const webpackMiddleware = require('webpack-dev-middleware');
+const webPackConfig = require('./webpack.config');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -5,6 +10,14 @@ const path = require('path');
 
 // Set up the express app
 const app = express();
+
+const compiler = webpack(webPackConfig);
+app.use(webpackMiddleware(compiler, {
+  hot: true,
+  publicPath: webPackConfig.output.publicPath,
+  noInfo: true
+}));
+app.use(webpackHotMiddleware(compiler));
 
 // Require routes
 const users = require('./server/routes/users');
