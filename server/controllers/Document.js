@@ -17,6 +17,15 @@ class Document {
    * @returns {Void} Returns Void
    */
   create(req, res) {
+    const title = req.body.title;
+    documents
+    .findOne({
+      where: { title }
+    }).then((result) => {
+      if (result) {
+        return res.status(409).send({ message: 'Title already exists' });
+      }
+    });
     return documents
       .create({
         title: req.body.title,
@@ -24,7 +33,14 @@ class Document {
         access: req.body.access || 'private',
         userId: req.tokenDecoded.userId
       })
-      .then(document => res.status(201).send({ message: 'Document has been successfully created', document }))
+      .then(document => res.status(201)
+      .send({
+        message: 'Document has been successfully created',
+        title: document.title,
+        content: document.content,
+        access: document.access,
+        userId: document.userId
+      }))
       .catch(error => res.status(400).send(error));
   }
   listAll(req, res) {
@@ -67,9 +83,9 @@ class Document {
         });
       }
 
-      return res.status(200).send(document);
+      return res.status(201).send(document);
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(400).send({ error: 'There was a problem getting document' }));
   }
 
   /**
@@ -154,6 +170,9 @@ class Document {
         $or: [
           {
             title: { $iLike: `%${req.query.doctitle}%` }
+          },
+          {
+            content: { $iLike: `%${req.query.doctitle}%` }
           }
         ]
       },
