@@ -20,7 +20,8 @@ class Roles {
     .then((role) => {
       res.status(201).send({
         message: 'Role created succesfully',
-        role,
+        name: role.name,
+        id: role.id,
       });
     })
     .catch(error => res.status(400).send(error.errors));
