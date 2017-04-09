@@ -21,7 +21,6 @@ export function createDocumentSuccess(document) {
 export function createDocument(document) {
   return function (dispatch) {
     return documentApi.createDocument(document).then((responseDocument) => {
-      console.log(responseDocument, 'response');
       dispatch(createDocumentSuccess(responseDocument));
     }).catch((error) => { throw (error); });
   };
