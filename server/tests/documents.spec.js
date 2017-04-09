@@ -118,7 +118,7 @@ describe('Documents', () => {
       .get('/api/documents/1')
       .set('x-access-token', userToken)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         should.exist(res.body);
         done();
       });
