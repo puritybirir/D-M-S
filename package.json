@@ -23,6 +23,7 @@
   "homepage": "https://github.com/andela-pbirir/CP2-DMS#readme",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.1",
     "chai": "^3.5.0",
@@ -34,7 +35,10 @@
     "jsonwebtoken": "^7.3.0",
     "material-ui": "^0.17.1",
     "mocha": "^3.2.0",
+    "mongoose": "^4.9.3",
     "morgan": "^1.8.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
