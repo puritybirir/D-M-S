@@ -47,7 +47,7 @@ describe('Users', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.message.should.equal('User created succesfully');
-        res.body.user.firstName.should.equal(dummyUser[3].firstName);
+        res.body.firstName.should.equal(dummyUser[3].firstName);
         done();
       });
     });
@@ -78,8 +78,8 @@ describe('Users', () => {
         password: dummyUser[2].password
       })
       .end((err, res) => {
-        res.body.user.should.have.property('roleId');
-        res.body.user.roleId.should.equal('1');
+        res.body.should.have.property('roleId');
+        res.body.roleId.should.equal('1');
         done();
       });
     });
@@ -222,7 +222,7 @@ describe('Users', () => {
     });
   });
   describe('Update user', () => {
-    it('should update a users details on /api/users/id PUT', (done) => {
+    it('should not update a different user\'s details on /api/users/id PUT', (done) => {
       chai.request(app)
       .put('/api/users/1')
       .set('x-access-token', userToken)
@@ -231,9 +231,8 @@ describe('Users', () => {
         lastName: 'Flash',
       })
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.firstName.should.equal('Sloth');
-        res.body.lastName.should.equal('Flash');
+        res.should.have.status(403);
+        res.body.message.should.equal('You cannot update another user');
         done();
       });
     });
@@ -295,7 +294,7 @@ describe('Users', () => {
       .delete('/api/users/2000')
       .set('x-access-token', adminToken)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         res.body.message.should.equal('User does not exist');
         done();
       });
