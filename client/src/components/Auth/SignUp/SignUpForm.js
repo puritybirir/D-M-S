@@ -109,10 +109,10 @@ class SignUpForm extends React.Component {
               <br /> <br />
               <div className="form-group">
                 <button className="btn btn-primary btn-lg" style={button}>
-                  Log In
+                  Sign Up
           </button>
                 <br /><br />
-                Don't have an account?<Link to="/signup" style={{ color: 'blue' }}>Signup</Link>
+                Have an account?<Link to="/login" style={{ color: 'blue' }}>Log In</Link>
               </div>
             </form>
           </Paper>
