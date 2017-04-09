@@ -30,7 +30,6 @@ class DocumentsPage extends React.Component {
     this.props.loadDocuments();
   }
   render() {
-    console.log(this.state, 'STATE');
     const documents = this.props.documents;
     return (
       <MuiThemeProvider>
