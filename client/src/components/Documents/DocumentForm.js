@@ -1,7 +1,6 @@
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React, { PropTypes } from 'react';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -10,7 +9,6 @@ class DocumentForm extends React.Component {
   render() {
     return (
       <div>
-        <RaisedButton label="Dialog" onTouchTap={this.handleOpen} />
           <MuiThemeProvider>
             <div>
               <TextField

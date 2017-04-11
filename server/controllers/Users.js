@@ -25,7 +25,11 @@ class Users {
     .then((user) => {
       res.status(201).send({
         message: 'User created succesfully',
-        user
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        roleId: user.roleId,
+        userName: user.userName
       });
     })
     .catch(error => res.status(400).send(error.errors));
@@ -101,7 +105,7 @@ class Users {
     return User
     .findAll()
     .then(users => res.status(200).send({ message: 'Listing all available users', users }))
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(404).send(error));
   }
   /**
    * findOne
@@ -149,6 +153,9 @@ class Users {
           message: 'User Not Found',
         });
       }
+      if (req.tokenDecoded.userId !== req.params.id) {
+        return res.status(403).send({ message: 'You cannot update another user' });
+      }
 
       return user
         .update(req.body)
@@ -171,7 +178,7 @@ class Users {
     .findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(400).send({
+        return res.status(404).send({
           message: 'User does not exist',
         });
       }

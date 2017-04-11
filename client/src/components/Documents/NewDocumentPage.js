@@ -46,7 +46,6 @@ class NewDocumentPage extends React.Component {
 }
 
 NewDocumentPage.propTypes = {
-  // actions: PropTypes.object.isRequired,
   createDocument: PropTypes.func.isRequired,
   loadDocuments: PropTypes.func.isRequired
 };
