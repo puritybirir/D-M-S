@@ -44,7 +44,7 @@ app.use('/api', roles);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/index.html'));
+  res.sendFile(path.join(__dirname, './client/src/index.html'));
 });
 
 module.exports = app;
