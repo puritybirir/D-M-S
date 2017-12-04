@@ -14,7 +14,7 @@ Installation
 Make sure that  you have [NodeJs](http://nodejs.org) and [Postgres](http://postgresql.com) installed
 1.  Clone the repository
 ```
-git@github.com:andela-pbirir/CP2-DMS.git
+git@github.com:puritybirir/CP2-DMS.git
 
 ```
 3.  Navigate to the directory.
