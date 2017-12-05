@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andela-pbirir/CP2-DMS.git"
+    "url": "git+https://github.com/puritybirir/CP2-DMS.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/andela-pbirir/CP2-DMS/issues"
+    "url": "https://github.com/puritybirir/CP2-DMS/issues"
   },
-  "homepage": "https://github.com/andela-pbirir/CP2-DMS#readme",
+  "homepage": "https://github.com/puritybirir/CP2-DMS#readme",
   "dependencies": {
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
