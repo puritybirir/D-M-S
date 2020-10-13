@@ -55,7 +55,7 @@
     "redux-devtools-extension": "^2.13.0",
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^3.30.2",
+    "sequelize": "^6.3.5",
     "sequelize-cli": "^2.7.0",
     "superagent": "^3.5.2",
     "validator": "^7.0.0",
